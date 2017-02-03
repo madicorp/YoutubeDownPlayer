@@ -1,53 +1,25 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+// Import section
 
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React from 'react';
+import {AppRegistry} from 'react-native';
+import {Container, Content} from 'native-base';
 
-export default class YoutubeDownPlayer extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+// Import Custom Components
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+import Header from './src/components/header/index.header';
+import SongsList from  './src/components/songs/list/index.list.songs'
 
-AppRegistry.registerComponent('YoutubeDownPlayer', () => YoutubeDownPlayer);
+// Create a component
+
+const App = () => (
+    <Container>
+        <Header headerText={'MY TUBES !'}/>
+        <Content>
+            <SongsList />
+        </Content>
+    </Container>
+);
+
+// render the component
+
+AppRegistry.registerComponent('YoutubeDownPlayer', () => App);
