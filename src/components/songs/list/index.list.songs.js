@@ -1,23 +1,23 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import {Content, List} from 'native-base';
+import {Content, Spinner, List} from 'native-base';
 import SongsDetail from '../detail/index.detail.songs'
 
-class SongsList extends Component {
+export default class SongsList extends Component {
 
     youtubeApiKey = 'AIzaSyA885cxQCDjevt1ZdAqIJgEDiePMQuIgOk';
     youtubeApiBaseUrl = 'https://www.googleapis.com/youtube/v3';
-    encodedKeyword = "Ta gueule : Bruit";
-    url = this.youtubeApiBaseUrl + '/search?part=snippet&q='+this.encodedKeyword+'&type=video&maxResults=10&key=' + this.youtubeApiKey;
-    state = {songs: []};
+    encodedKeyword = "test";
+    url = this.youtubeApiBaseUrl + '/search?part=snippet&q=' + this.encodedKeyword + '&type=video&maxResults=10&key=' + this.youtubeApiKey;
+    state = {songs: [], loading: true};
 
     componentWillMount() {
+
         fetch(this.url)
             .then(
                 (response) => response.json()
                     .then((responseJson) => {
-                        console.log(responseJson);
-                        this.setState({songs: responseJson.items})
+                        this.setState({loading: false, songs: responseJson.items})
                     })
             ).catch((error) => {
             console.error(error);
@@ -30,11 +30,14 @@ class SongsList extends Component {
 
     render() {
         return (
-            <List>
-                {this.renderSongs()}
-            </List>
+            <Content>
+                {
+                    this.state.loading ?
+                        <Spinner /> :
+                        <List dataArray={this.state.songs}
+                              renderRow={(song) => <SongsDetail key={song.id.videoId} song={song}/>}/>
+                }
+            </Content>
         );
     }
 }
-
-export default SongsList;

@@ -1,5 +1,6 @@
 rootProject.name = 'YoutubeDownPlayer'
 
-include ':react-native-fs',':RNSound', ':app'
+include ':react-native-fs',':RNSound',':RCTYouTube', ':app'
 project(':RNSound').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sound/android')
 project(':react-native-fs').projectDir = new File(settingsDir, '../node_modules/react-native-fs/android')
+project(':RCTYouTube').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-youtube/RCTYouTube')

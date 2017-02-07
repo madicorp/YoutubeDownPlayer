@@ -14,6 +14,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 import com.zmxv.RNSound.RNSoundPackage;
+import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -27,8 +28,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNFSPackage(),
-            new RNSoundPackage()
+          new RNFSPackage(),
+          new RNSoundPackage(),
+          new ReactNativeYouTube()
       );
     }
   };
