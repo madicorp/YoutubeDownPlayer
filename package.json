@@ -14,7 +14,10 @@
     "react-native-fs": "^2.1.0-rc.1",
     "react-native-sound": "^0.8.3",
     "react-native-vector-icons": "^4.0.0",
-    "react-native-youtube": "^0.8.0"
+    "react-native-video": "^1.0.0",
+    "react-native-youtube": "^0.8.0",
+    "react-redux": "^5.0.2",
+    "redux": "^3.6.0"
   },
   "devDependencies": {
     "babel-jest": "18.0.0",

@@ -3,26 +3,29 @@
 import React, {Component} from 'react';
 import {AppRegistry, View, Text, Modal} from 'react-native';
 import {ListItem, Thumbnail, Icon, Button} from 'native-base';
-import SongsSingle from '../single/index.single.songs';
-import Styles from './style.detail.songs';
+import VideosSingle from '../single/index.single.videos';
+import Styles from './style.detail.videos';
+import {connect} from 'react-redux';
+import * as actions from '../../../actions';
 
-const  Sound = require('react-native-sound');
+const Sound = require('react-native-sound');
 const RNFS = require('react-native-fs');
 
 const {actionStyle} = Styles;
 
 // create components
-export default class SongsDetail extends Component {
-    state = {ready: false, showModal: false};
+class VideosDetail extends Component {
+    state = {ready: false,};
+
     playSong(id) {
         const url = "http://www.youtubeinmp3.com/fetch/?format=JSON&video=http://www.youtube.com/watch?v=" + id;
 
         RNFS.exists(`${RNFS.DocumentDirectoryPath}/${id}.mp3`).then((result) => {
 
-            if(result){
+            if (result) {
                 console.log("file exist");
-                this.setState({ ready: true })
-            }else{
+                this.setState({ready: true})
+            } else {
                 fetch(url)
                     .then(
                         (response) => response.json()
@@ -34,7 +37,7 @@ export default class SongsDetail extends Component {
                                     toFile: `${RNFS.DocumentDirectoryPath}/${id}.mp3`,
                                 }).promise.then((r) => {
                                     console.log(r);
-                                    this.setState({ ready: true })
+                                    this.setState({ready: true})
                                 });
 
                             })
@@ -44,14 +47,22 @@ export default class SongsDetail extends Component {
 
 
     };
-    setModalTo(showModal){
-        this.setState({ showModal: showModal });
+
+    setModalTo(showModal) {
+        const selected = showModal ? this.props.video.id.videoId : null;
+        this.props.selectVideo(selected);
+        this.props.setModalTo(showModal, selected, this.props.video.id.videoId)
 
     }
 
+    getModalState(showModal){
+        return showModal && this.props.video.id.videoId == this.props.selectedVideoId
+    }
+
     render() {
-        if(this.state.ready){
-            const whoosh = new Sound(`${this.props.song.id.videoId}.mp3`,RNFS.DocumentDirectoryPath, (error) => {
+        const {showModal} = this.props;
+        if (this.state.ready) {
+            const whoosh = new Sound(`${this.props.video.id.videoId}.mp3`, RNFS.DocumentDirectoryPath, (error) => {
                 if (error) {
                     console.log('failed to load the sound', error);
                 } else { // loaded successfully
@@ -63,18 +74,17 @@ export default class SongsDetail extends Component {
         }
         return (
             <View>
-                <ListItem onPress={() => this.setModalTo(true)}>
-                    <Thumbnail square size={80} source={{uri: this.props.song.snippet.thumbnails.medium.url}}/>
-                    <Text>{this.props.song.snippet.title}</Text>
-                    <Text note>{this.props.song.snippet.description}</Text>
+                <ListItem onPress={() =>  this.setModalTo(true)}>
+                    <Thumbnail square size={80} source={{uri: this.props.video.snippet.thumbnails.medium.url}}/>
+                    <Text>{this.props.video.snippet.title}</Text>
+                    <Text note>{this.props.video.snippet.description}</Text>
                 </ListItem>
                 <Modal
                     animationType="slide"
                     transparent={false}
-                    visible={this.state.showModal}
-                    onRequestClose={() => {alert("Modal has been closed.")}}
-                >
-                    <SongsSingle videoId={this.props.song.id.videoId} />
+                    visible={this.getModalState(showModal) }
+                    onRequestClose={() => { this.setModalTo(false)}}>
+                    <VideosSingle videoId={this.props.video.id.videoId}/>
                     <Button danger style={{alignSelf: 'flex-end'}} onPress={() => {
                                         this.setModalTo(false)
                                     }}>
@@ -84,5 +94,12 @@ export default class SongsDetail extends Component {
             </View>
 
         )
-    };
+    }
 }
+
+const mapStateToProps = state => {
+
+    return {showModal: state.showModal, selectedVideoId: state.selectedVideoId};
+};
+
+export default connect(mapStateToProps, actions)(VideosDetail);

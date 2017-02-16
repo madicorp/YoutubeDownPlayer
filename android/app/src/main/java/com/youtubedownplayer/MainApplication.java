@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
+import com.brentvatne.react.ReactVideoPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -30,7 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           new RNFSPackage(),
           new RNSoundPackage(),
-          new ReactNativeYouTube()
+          new ReactNativeYouTube(),
+          new ReactVideoPackage()
       );
     }
   };

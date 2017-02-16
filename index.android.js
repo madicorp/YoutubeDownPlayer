@@ -1,25 +1,23 @@
-// Import section
-
 import React from 'react';
 import {AppRegistry} from 'react-native';
 import {Container, Content} from 'native-base';
-
-// Import Custom Components
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import reducers from './src/reducers';
 
 import Header from './src/components/header/index.header';
-import SongsList from  './src/components/songs/list/index.list.songs'
-
-// Create a component
+import SongsList from  './src/components/videos/list/index.list.videos'
+console.disableYellowBox = true;
 
 const App = () => (
-    <Container>
-        <Header headerText={'MY TUBES !'}/>
-        <Content>
-            <SongsList />
-        </Content>
-    </Container>
+    <Provider store={createStore(reducers)}>
+        <Container>
+            <Header headerText={'MY TUBES !'}/>
+            <Content>
+                <SongsList />
+            </Content>
+        </Container>
+    </Provider>
 );
-
-// render the component
 
 AppRegistry.registerComponent('YoutubeDownPlayer', () => App);
